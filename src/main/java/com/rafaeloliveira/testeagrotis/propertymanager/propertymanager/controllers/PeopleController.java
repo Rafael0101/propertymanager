@@ -27,57 +27,52 @@ public class PeopleController {
     }
 
     @GetMapping
-    public ResponseEntity<Page<PeopleModel>> getAll(@PageableDefault(sort = "creationDate") Pageable pageable){
+    public ResponseEntity<Page<PeopleModel>> getAll(@PageableDefault(sort = "creationDate") Pageable pageable) {
 
         log.info("NEW FIND ALL PEOPLES REQUEST");
-        try{
+        try {
             return ResponseEntity.ok(peopleService.findAll(pageable));
-        }catch (Exception e){
+        } catch (Exception e) {
             log.warn("NOT FOUND PEOPLES");
             return ResponseEntity.noContent().build();
         }
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Object> getById(@PathVariable UUID id){
+    public ResponseEntity<Object> getById(@PathVariable UUID id) {
         log.info("NEW FIND PEOPLE BY ID REQUEST");
-        try{
-            return ResponseEntity.ok(peopleService.findById(id));
-        }catch (Exception e){
-            log.warn("NOT FOUND PEOPLE FOR ID: {}", id);
-            return ResponseEntity.notFound().build();
-        }
+        return ResponseEntity.ok(peopleService.findById(id));
     }
 
     @PostMapping("/save")
-    public ResponseEntity<Object> save(@RequestBody @Validated PeopleDTO people){
+    public ResponseEntity<Object> save(@RequestBody @Validated PeopleDTO people) {
         log.info("NEW SAVE PEOPLE REQUEST");
-        try{
+        try {
             return ResponseEntity.ok(peopleService.save(people));
-        }catch (Exception e){
+        } catch (Exception e) {
             log.warn("CANNOT SAVE PEOPLE. PEOPLEDTO:  {}", people);
             return ResponseEntity.unprocessableEntity().build();
         }
     }
 
     @PutMapping("/update/{id}")
-    public ResponseEntity<Object> update(@PathVariable UUID id, @RequestBody @Validated PeopleDTO people){
+    public ResponseEntity<Object> update(@PathVariable UUID id, @RequestBody @Validated PeopleDTO people) {
         log.info("NEW UPDATE PEOPLE REQUEST");
         try {
             return ResponseEntity.ok(peopleService.update(id, people));
-        }catch (Exception e){
+        } catch (Exception e) {
             log.warn("CANNOT UPDATE PEOPLE");
             return ResponseEntity.unprocessableEntity().build();
         }
     }
 
     @DeleteMapping("/delete/{id}")
-    public ResponseEntity<Object> delete(@PathVariable UUID id){
+    public ResponseEntity<Object> delete(@PathVariable UUID id) {
         log.info("NEW DELETE PEOPLE REQUEST");
-        try{
+        try {
             PeopleModel peopleModel = peopleService.findById(id);
             peopleService.delete(peopleModel);
-        }catch (Exception e){
+        } catch (Exception e) {
             log.warn("CANNOT DELETE PEOPLE");
             return ResponseEntity.unprocessableEntity().build();
         }

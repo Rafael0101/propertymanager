@@ -28,56 +28,51 @@ public class LaboratoryController {
     }
 
     @GetMapping
-    public ResponseEntity<Page<LaboratoryModel>> getAll(@PageableDefault(sort = "creationDate")Pageable pageable){
+    public ResponseEntity<Page<LaboratoryModel>> getAll(@PageableDefault(sort = "creationDate") Pageable pageable) {
         log.info("NEW FIND ALL LABORATORIES REQUEST");
-        try{
+        try {
             return ResponseEntity.ok(laboratoryService.findAll(pageable));
-        }catch (Exception e){
+        } catch (Exception e) {
             log.warn("NOT FOUND LABORATORIES");
             return ResponseEntity.notFound().build();
         }
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<LaboratoryModel> getById(@PathVariable UUID id){
+    public ResponseEntity<LaboratoryModel> getById(@PathVariable UUID id) {
         log.info("NEW FIND BY ID REQUEST");
-        try{
-            return ResponseEntity.ok(laboratoryService.findById(id));
-        }catch (Exception e){
-            log.warn("NOT FOUND LABORATORY FOR ID: {}", id);
-            return ResponseEntity.notFound().build();
-        }
+        return ResponseEntity.ok(laboratoryService.findById(id));
     }
 
     @PostMapping("/save")
-    public ResponseEntity<Object> save(@RequestBody @Validated LaboratoryDTO laboratory){
+    public ResponseEntity<Object> save(@RequestBody @Validated LaboratoryDTO laboratory) {
         log.info("NEW SAVE LABORATORY REQUEST");
         try {
             return ResponseEntity.ok(laboratoryService.save(laboratory));
-        }catch (Exception e){
+        } catch (Exception e) {
             log.warn("CANNOT SAVE LABORATORY");
             return ResponseEntity.unprocessableEntity().build();
         }
     }
 
     @PutMapping("/update/{id}")
-    public ResponseEntity<Object> update(@PathVariable UUID id, @RequestBody @Validated LaboratoryDTO laboratory){
+    public ResponseEntity<Object> update(@PathVariable UUID id, @RequestBody @Validated LaboratoryDTO laboratory) {
         log.info("NEW UPDATE LABORATORY REQUEST");
-        try{
-            return ResponseEntity.ok(laboratoryService.update(id,laboratory));
-        }catch (Exception e){
+        try {
+            return ResponseEntity.ok(laboratoryService.update(id, laboratory));
+        } catch (Exception e) {
             log.warn("CANNOT UPDATE LABORATORY");
             return ResponseEntity.unprocessableEntity().build();
         }
     }
 
     @DeleteMapping("/delete/{id}")
-    public ResponseEntity<Object> delete(@PathVariable UUID id){
+    public ResponseEntity<Object> delete(@PathVariable UUID id) {
         log.info("NEW DELETE LABORATORY REQUEST");
-        try{
+        try {
             LaboratoryModel laboratoryModel = laboratoryService.findById(id);
             laboratoryService.delete(laboratoryModel);
-        }catch (Exception e){
+        } catch (Exception e) {
             log.warn("CANNOT DELETE LABORATORY");
             return ResponseEntity.unprocessableEntity().build();
         }

@@ -27,56 +27,51 @@ public class PropertyController {
     }
 
     @GetMapping
-    public ResponseEntity<Page<PropertyModel>> getAll(@PageableDefault(sort = "name") Pageable pageable){
+    public ResponseEntity<Page<PropertyModel>> getAll(@PageableDefault(sort = "name") Pageable pageable) {
         log.info("NEW FIND ALL PROPERTIES REQUEST");
-        try{
+        try {
             return ResponseEntity.ok(propertyService.findAll(pageable));
-        }catch (Exception e){
+        } catch (Exception e) {
             log.warn("NOT FOUND PROPERTIES");
             return ResponseEntity.notFound().build();
         }
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Object> getById(@PathVariable UUID id){
+    public ResponseEntity<Object> getById(@PathVariable UUID id) {
         log.info("NEW FIND PROPERTIES BY ID REQUEST");
-        try{
-            return ResponseEntity.ok(propertyService.findById(id));
-        }catch (Exception e){
-            log.warn("NOT FOUND PROPERTY FOR ID: {}", id);
-            return ResponseEntity.notFound().build();
-        }
+        return ResponseEntity.ok(propertyService.findById(id));
     }
 
     @PostMapping("/save")
-    public ResponseEntity<Object> save(@RequestBody @Validated PropertyDTO property){
+    public ResponseEntity<Object> save(@RequestBody @Validated PropertyDTO property) {
         log.info("NEW SAVE PROPERTY REQUEST");
-        try{
+        try {
             return ResponseEntity.ok(propertyService.save(property));
-        }catch (Exception e){
+        } catch (Exception e) {
             log.warn("CANNOT SAVE PROPERTY");
             return ResponseEntity.unprocessableEntity().build();
         }
     }
 
     @PutMapping("/update/{id}")
-    public ResponseEntity<Object> update(@PathVariable UUID id, @RequestBody @Validated PropertyDTO property){
+    public ResponseEntity<Object> update(@PathVariable UUID id, @RequestBody @Validated PropertyDTO property) {
         log.info("NEW UPDATE PROPERTY REQUEST");
         try {
             return ResponseEntity.ok(propertyService.update(id, property));
-        }catch (Exception e){
+        } catch (Exception e) {
             log.warn("CANNOT UPDATE PROPERTY");
             return ResponseEntity.unprocessableEntity().build();
         }
     }
 
     @DeleteMapping("/delete/{id}")
-    public ResponseEntity<Object> delete(@PathVariable UUID id){
+    public ResponseEntity<Object> delete(@PathVariable UUID id) {
         log.info("NEW DELETE PROPERTY REQUEST");
-        try{
+        try {
             PropertyModel property = propertyService.findById(id);
             propertyService.delete(property);
-        }catch (Exception e){
+        } catch (Exception e) {
             log.warn("CANNOT DELETE PROPERTY");
             return ResponseEntity.unprocessableEntity().build();
         }
